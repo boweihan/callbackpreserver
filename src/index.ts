@@ -1,6 +1,6 @@
 import { partial } from "lodash";
 
-export default class Transformer {
+export default class ContextFreezer {
   private args?: any[];
   private executor?: IterableIterator<any>;
   private next?: (...args: any[]) => any;
@@ -29,7 +29,7 @@ export default class Transformer {
     this.next = partial(callable, this.args);
     let result: Promise<any> | Promise<never>;
     try {
-      const val = this.executor.next(false).value;
+      const val = this.executor && this.executor.next(false).value;
       result = Promise.resolve(val);
     } catch (e) {
       result = Promise.reject(e);
