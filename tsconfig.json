@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5" /* compile to es5 */,
-    "module": "commonjs" /* compatibility */,
-    "declaration": true /* export type definitions with javascript */,
+    "target": "es5",
+    "module": "esnext",
+    "declaration": true,
     "outDir": "./lib",
     "strict": true
   },
