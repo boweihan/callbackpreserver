@@ -27,7 +27,10 @@
   },
   "homepage": "https://github.com/boweihan/FunctionContextTransformer#readme",
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "@types/jest": "^23.3.13",
+    "babel-loader": "^8.0.5",
     "jest": "^24.0.0",
     "prettier": "^1.16.3",
     "ts-jest": "^23.10.5",
@@ -41,5 +44,7 @@
   "resolutions": {
     "terser": "3.14.1"
   },
-  "files": ["lib/**/*"]
+  "files": [
+    "lib/**/*"
+  ]
 }

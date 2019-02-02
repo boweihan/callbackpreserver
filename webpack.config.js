@@ -9,6 +9,11 @@ module.exports = {
         use: "ts-loader",
         exclude: /node_modules/,
       },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: ["babel-loader"],
+      },
     ],
   },
   resolve: {
