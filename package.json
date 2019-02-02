@@ -1,8 +1,9 @@
 {
   "name": "FunctionContextTransformer",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Reusable function contexts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
@@ -19,7 +20,7 @@
     "url": "git+https://github.com/boweihan/FunctionContextTransformer.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Bowei Han",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/boweihan/FunctionContextTransformer/issues"
