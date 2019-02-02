@@ -1,5 +1,5 @@
 {
-  "name": "FunctionContextTransformer",
+  "name": "CallbackPreserver",
   "version": "1.0.0",
   "description": "Reusable function contexts",
   "main": "lib/index.js",
@@ -17,15 +17,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boweihan/FunctionContextTransformer.git"
+    "url": "git+https://github.com/boweihan/CallbackPreserver.git"
   },
   "keywords": [],
   "author": "Bowei Han",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/boweihan/FunctionContextTransformer/issues"
+    "url": "https://github.com/boweihan/CallbackPreserver/issues"
   },
-  "homepage": "https://github.com/boweihan/FunctionContextTransformer#readme",
+  "homepage": "https://github.com/boweihan/CallbackPreserver#readme",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",

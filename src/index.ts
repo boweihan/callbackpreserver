@@ -1,11 +1,11 @@
 import { partial } from "lodash";
 
-export default class ContextFreezer {
+export default class CallbackPreserver {
   private args?: any[];
   private executor?: IterableIterator<any>;
   private next?: (...args: any[]) => any;
 
-  public create = (source: (...args: any[]) => Promise<void>) => {
+  public preserve = (source: (...args: any[]) => Promise<void>) => {
     let resolver: () => void;
     const status = new Promise(resolve => {
       resolver = resolve;
