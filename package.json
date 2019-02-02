@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/boweihan/FunctionContextTransformer/issues"
   },
-  "homepage": "https://github.com/boweihan/FunctionContextTransformer#readme"
+  "homepage": "https://github.com/boweihan/FunctionContextTransformer#readme",
+  "devDependencies": {
+    "typescript": "^3.3.1"
+  }
 }
