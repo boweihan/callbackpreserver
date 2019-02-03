@@ -29,6 +29,9 @@ export default class CallbackPreserver implements ICallbackPreserver {
   public run = (
     callable: (...args: any[]) => any,
   ): Promise<any> | Promise<never> => {
+    if (!this.executor) {
+      return Promise.reject(new Error('No Preserved Callback'));
+    }
     if (this.args) {
       this.next = partial(callable, ...this.args);
     } else {
