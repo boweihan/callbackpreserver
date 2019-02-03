@@ -40,7 +40,7 @@ export default class CallbackPreserver implements ICallbackPreserver {
     return result;
   };
 
-  private init = (args: any[], resolver: () => void): Promise<any> => {
+  private init = (args: any[], resolver: () => void): Promise<void> => {
     this.args = args;
     this.executor = this.execute();
     resolver();
