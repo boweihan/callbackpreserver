@@ -7,7 +7,7 @@ export default class CallbackPreserver implements ICallbackPreserver {
   private next?: (...args: any[]) => any;
 
   public preserve = (
-    source: (...args: any[]) => Promise<void>,
+    source: (callback: (...args: any[]) => Promise<void>) => Promise<void>,
   ): Promise<{}> => {
     let resolver: () => void;
     const status = new Promise(resolve => {
