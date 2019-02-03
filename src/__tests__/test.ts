@@ -1,7 +1,13 @@
 import CallbackPreserver from '../index';
 
+let executing = false;
 const fs = {
-  readFile: () => undefined,
+  readFile: (callback: (...args: any[]) => Promise<void>): Promise<void> => {
+    executing = true;
+    const result = callback(executing);
+    executing = false;
+    return result;
+  },
 };
 
 test('instantiation', () => {
@@ -11,9 +17,16 @@ test('instantiation', () => {
   expect(typeof preserver.run).toBe('function');
 });
 
-test('preserve', () => {
+test('preserve without args', () => {
   const preserver = new CallbackPreserver();
+  expect(executing).toEqual(false);
   preserver.preserve(fs.readFile);
+  expect(executing).toEqual(false);
+  preserver.run(
+    (...args: any[]): any => {
+      expect(args).toEqual([true]);
+    },
+  );
 });
 
 // let source = context => {

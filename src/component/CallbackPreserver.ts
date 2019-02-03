@@ -7,7 +7,7 @@ export default class CallbackPreserver implements ICallbackPreserver {
   private next?: (...args: any[]) => any;
 
   public preserve = (
-    source: (callback: (...args: any[]) => Promise<void>) => Promise<void>,
+    source: (callback: (...args: any[]) => any) => Promise<void>,
   ): Promise<{}> => {
     let resolver: () => void;
     const status = new Promise(resolve => {
@@ -27,9 +27,13 @@ export default class CallbackPreserver implements ICallbackPreserver {
   };
 
   public run = (
-    callable: (...args: any[]) => Promise<any>,
+    callable: (...args: any[]) => any,
   ): Promise<any> | Promise<never> => {
-    this.next = partial(callable, this.args);
+    if (this.args) {
+      this.next = partial(callable, ...this.args);
+    } else {
+      this.next = callable;
+    }
     let result: Promise<any> | Promise<never>;
     try {
       const val = this.executor && this.executor.next(false).value;
