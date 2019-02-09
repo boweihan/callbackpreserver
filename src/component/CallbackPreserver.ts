@@ -8,14 +8,14 @@ export default class CallbackPreserver implements ICallbackPreserver {
 
   // act as a dummy callback to initialize generator
   public preserve = (...args: any[]): void => {
-    this.args = args;
-    this.executor = this.execute();
+    this.args = args; // save args
+    this.executor = this.execute(); // initialize generator
   };
 
   // clean up the preserved callback
   public close = () => {
     if (this.executor) {
-      this.executor.next(true);
+      this.executor.next(true); // passing true will close the generator
     }
     delete this.next;
     delete this.args;
