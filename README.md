@@ -1,6 +1,6 @@
 # CallbackPreserver
 
-<img src="./preserver.png" width="400px"/>
+<img src="./preserver.png" width="300px"/>
 
 A utility class for preserving JavaScript callback function context so that the same callback can be invoked multiple times.
 
