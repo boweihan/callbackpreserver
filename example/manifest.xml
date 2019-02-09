@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+    xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+    <Id>dd12ded4-446b-46dd-9124-25ca44cf14fd</Id>
+    <Version>0.1.0.0</Version>
+    <ProviderName>CallbackPreserver</ProviderName>
+    <DefaultLocale>en-US</DefaultLocale>
+    <DisplayName DefaultValue="Version Buddy"/>
+    <Description DefaultValue="User-friendly version control for Excel 365"/>
+    <IconUrl DefaultValue="https://localhost:8443/images/versioning.gif"/>
+    <HighResolutionIconUrl DefaultValue="https://localhost:8443/images/versioning.gif" />
+    <SupportUrl DefaultValue="https://github.com/boweihan/xl365vc-client"/>
+    <Hosts>
+        <Host Name="Workbook"/>
+    </Hosts>
+    <Requirements>
+        <Sets DefaultMinVersion="1.1">
+            <Set Name="ExcelApi" MinVersion="1.1"/>
+        </Sets>
+    </Requirements>
+    <DefaultSettings>
+        <SourceLocation DefaultValue="https://localhost:8443/index.html"/>
+    </DefaultSettings>
+    <Permissions>ReadWriteDocument</Permissions>
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+        <Hosts>
+            <Host xsi:type="Workbook">
+                <DesktopFormFactor>
+                    <GetStarted>
+                        <Title resid="CallbackPreserver.GetStarted.Title"/>
+                        <Description resid="CallbackPreserver.Main.Description"/>
+                        <LearnMoreUrl resid="CallbackPreserver.GetStarted.LearnMoreUrl"/>
+                    </GetStarted>
+                    <ExtensionPoint xsi:type="PrimaryCommandSurface">
+                        <OfficeTab id="TabInsert">
+                            <Group id="CallbackPreserver.Group.Audit">
+                                <Label resid="CallbackPreserver.Group.Label" />
+                                <!-- Icons. Required sizes 16,32,80, optional 20, 24, 40, 48, 64. Strongly recommended to provide all sizes for great UX. -->
+                                <!-- Use PNG icons. All URLs on the resources section must use HTTPS. -->
+                                <Icon>
+                                    <bt:Image size="16" resid="CallbackPreserver.Img.Logo.16" />
+                                    <bt:Image size="32" resid="CallbackPreserver.Img.Logo.32" />
+                                    <bt:Image size="64" resid="CallbackPreserver.Img.Logo.64" />
+                                    <bt:Image size="80" resid="CallbackPreserver.Img.Logo.80" />
+                                </Icon>
+                                <Control xsi:type="Button" id="CallbackPreserver.Main">
+                                    <Label resid="CallbackPreserver.Button.Main.Label" />
+                                    <Supertip>
+                                        <Title resid="CallbackPreserver.Button.Main.Label" />
+                                        <Description resid="CallbackPreserver.Main.Description" />
+                                    </Supertip>
+                                    <Icon>
+                                        <bt:Image size="16" resid="CallbackPreserver.Img.Logo.16" />
+                                        <bt:Image size="32" resid="CallbackPreserver.Img.Logo.32" />
+                                        <bt:Image size="64" resid="CallbackPreserver.Img.Logo.64" />
+                                        <bt:Image size="80" resid="CallbackPreserver.Img.Logo.80" />
+                                    </Icon>
+                                    <Action xsi:type="ShowTaskpane">
+                                        <TaskpaneId>Office.AutoShowTaskpaneWithDocument</TaskpaneId>
+                                        <SourceLocation resid="CallbackPreserver.Main.Url" />
+                                    </Action>
+                                </Control>
+                            </Group>
+                        </OfficeTab>
+                    </ExtensionPoint>
+                </DesktopFormFactor>
+            </Host>
+        </Hosts>
+        <Resources>
+            <bt:Images>
+                <bt:Image id="CallbackPreserver.Img.Logo.16" DefaultValue="https://localhost:8443/images/versioning-16.gif" />
+                <bt:Image id="CallbackPreserver.Img.Logo.32" DefaultValue="https://localhost:8443/images/versioning-32.gif" />
+                <bt:Image id="CallbackPreserver.Img.Logo.64" DefaultValue="https://localhost:8443/images/versioning-64.gif" />
+                <bt:Image id="CallbackPreserver.Img.Logo.80" DefaultValue="https://localhost:8443/images/versioning-80.gif" />
+            </bt:Images>
+            <bt:Urls>
+                <bt:Url id="CallbackPreserver.GetStarted.LearnMoreUrl" DefaultValue="https://github.com/boweihan/xl365vc-client" />
+                <bt:Url id="CallbackPreserver.Main.Url" DefaultValue="https://localhost:8443/index.html" />
+            </bt:Urls>
+            <!-- ShortStrings max characters==125. -->
+            <bt:ShortStrings>
+                <bt:String id="CallbackPreserver.GetStarted.Title" DefaultValue="Get Started" />
+                <bt:String id="CallbackPreserver.Group.Label" DefaultValue="Version Buddy" />
+                <bt:String id="CallbackPreserver.Button.Main.Label" DefaultValue="CallbackPreserver" />
+            </bt:ShortStrings>
+            <!-- LongStrings max characters==250. -->
+            <bt:LongStrings>
+                <bt:String id="CallbackPreserver.Main.Description" DefaultValue="Version Control for Excel365" />
+            </bt:LongStrings>
+        </Resources>
+    </VersionOverrides>
+    <!-- End Add-in Commands Mode integration. -->
+</OfficeApp>
