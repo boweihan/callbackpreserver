@@ -1,14 +1,11 @@
 import CallbackPreserver from '../index';
 
 describe('CallbackPreserver', () => {
-  let executing = false;
-  const fs = {
-    readFile: (callback: (...args: any[]) => Promise<void>): Promise<void> => {
-      executing = true;
-      const result = callback(executing);
-      executing = false;
-      return result;
-    },
+  let flag = false;
+  const func = (callback: (...args: any[]) => any) => {
+    flag = true;
+    callback(flag);
+    flag = false;
   };
 
   test('instantiation', () => {
@@ -18,76 +15,122 @@ describe('CallbackPreserver', () => {
     expect(typeof preserver.run).toBe('function');
   });
 
-  test('preserve', () => {
+  test('preserve', done => {
     const preserver = new CallbackPreserver();
-    expect(executing).toEqual(false);
-    preserver.preserve(fs.readFile);
-    expect(executing).toEqual(false);
+    expect(flag).toEqual(false);
+    func(preserver.preserve);
+    expect(flag).toEqual(false);
 
     /* arguments are preserved */
     preserver.run(
       (...args: any[]): any => {
         expect(args).toEqual([true]);
+        done();
       },
     );
   });
 
-  test('run - success', async () => {
+  test('run - success', done => {
     const preserver = new CallbackPreserver();
-    preserver.preserve(fs.readFile);
-    const result = preserver.run(() => 'result');
-    expect(typeof result.then).toBe('function');
-
-    /* no error results in a resolved promise */
-    expect(await result).toBe('result');
+    func(preserver.preserve);
+    const promise = preserver.run(() => 'result');
+    promise.then(result => {
+      /* no error results in a resolved promise */
+      expect(result).toBe('result');
+      done();
+    });
   });
 
-  test('run - error', async () => {
+  test('run - error', done => {
     const preserver = new CallbackPreserver();
-    preserver.preserve(fs.readFile);
-    const result = preserver.run(() => {
+    func(preserver.preserve);
+    const promise = preserver.run(() => {
       throw new Error('error');
     });
-    expect(typeof result.then).toBe('function');
-
-    /* throwing an error results in rejected promise */
-    try {
-      await result;
-    } catch (e) {
+    promise.catch(e => {
       expect(e.message).toBe('error');
-    }
+      done();
+    });
   });
 
-  test('close', () => {
+  test('close with no preserved callback', done => {
     const preserver = new CallbackPreserver();
 
     /* no preserved callback if callback has not been preserved */
-    try {
-      preserver.run(
+
+    preserver
+      .run(
         (...args: any[]): any => {
           expect(args).toEqual([true]);
         },
-      );
-    } catch (e) {
-      expect(e.message).toBe('No Preserved Callback');
-    }
-    preserver.preserve(fs.readFile);
-    preserver.run(
-      (...args: any[]): any => {
-        expect(args).toEqual([true]);
+      )
+      .catch(e => {
+        expect(e.message).toBe('No Preserved Callback');
+        preserver.close();
+        done();
+      });
+  });
+
+  test('close properly', done => {
+    const preserver = new CallbackPreserver();
+    func(preserver.preserve);
+    preserver
+      .run(
+        (...args: any[]): any => {
+          expect(args).toEqual([true]);
+        },
+      )
+      .then(() => {
+        preserver.close();
+        done();
+      });
+  });
+
+  test('no preserved callback if preserver has already been closed', done => {
+    const preserver = new CallbackPreserver();
+    func(preserver.preserve);
+    preserver.close();
+    /* no preserved callback if preserver has been closed */
+
+    preserver
+      .run(
+        (...args: any[]): any => {
+          expect(args).toEqual([true]);
+        },
+      )
+      .catch(e => {
+        expect(e.message).toBe('No Preserved Callback');
+        done();
+      });
+  });
+});
+
+describe('CallbackPreserver Usage', () => {
+  let code = 0;
+  const func = (callback: (...args: any[]) => any) => {
+    code = 12345;
+    callback(code);
+    code = 0;
+  };
+
+  test('Reusing the callback', async () => {
+    const preserver = new CallbackPreserver();
+    func(preserver.preserve);
+
+    await preserver.run(
+      (context: number): any => {
+        expect(context).toEqual(12345);
       },
     );
-    preserver.close();
 
-    /* no preserved callback if preserver has been closed */
-    try {
-      preserver.run(
-        (...args: any[]): any => {
-          expect(args).toEqual([true]);
-        },
-      );
-    } catch (e) {
-      expect(e.message).toBe('No Preserved Callback');
-    }
+    expect(code).toEqual(0);
+
+    await preserver.run(
+      (context): any => {
+        expect(context * 10).toEqual(123450);
+      },
+    );
+
+    preserver.close();
   });
 });

@@ -6,17 +6,13 @@ export default class CallbackPreserver implements ICallbackPreserver {
   private executor?: IterableIterator<any>;
   private next?: (...args: any[]) => any;
 
-  public preserve = (
-    source: (callback: (...args: any[]) => any) => Promise<void>,
-  ): Promise<{}> => {
-    let resolver: () => void;
-    const status = new Promise(resolve => {
-      resolver = resolve;
-    });
-    source((...args: any[]) => this.init(args, resolver));
-    return status;
+  // act as a dummy callback to initialize generator
+  public preserve = (...args: any[]): void => {
+    this.args = args;
+    this.executor = this.execute();
   };
 
+  // clean up the preserved callback
   public close = () => {
     if (this.executor) {
       this.executor.next(true);
@@ -26,9 +22,8 @@ export default class CallbackPreserver implements ICallbackPreserver {
     delete this.executor;
   };
 
-  public run = (
-    callable: (...args: any[]) => any,
-  ): Promise<any> | Promise<never> => {
+  // execute a callback using the preserved callback context
+  public run = (callable: (...args: any[]) => any): Promise<any> => {
     if (!this.executor) {
       return Promise.reject(new Error('No Preserved Callback'));
     }
@@ -45,13 +40,6 @@ export default class CallbackPreserver implements ICallbackPreserver {
       result = Promise.reject(e);
     }
     return result;
-  };
-
-  private init = (args: any[], resolver: () => void): Promise<void> => {
-    this.args = args;
-    this.executor = this.execute();
-    resolver();
-    return Promise.resolve();
   };
 
   private *execute(): IterableIterator<any> {

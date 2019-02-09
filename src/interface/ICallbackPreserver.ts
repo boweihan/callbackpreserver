@@ -1,7 +1,5 @@
 interface ICallbackPreserver {
-  preserve: (
-    source: (callback: (...args: any[]) => Promise<void>) => Promise<void>,
-  ) => Promise<{}>;
+  preserve: (...args: any[]) => void;
   close: () => void;
   run: (
     callable: (...args: any[]) => Promise<any>,
