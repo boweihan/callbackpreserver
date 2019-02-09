@@ -1,6 +1,6 @@
 {
   "name": "callbackpreserver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Reusable function contexts",
   "main": "lib/bundle.js",
   "types": "lib/index.d.ts",

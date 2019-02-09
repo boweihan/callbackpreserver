@@ -7,7 +7,7 @@
     <Version>0.1.0.0</Version>
     <ProviderName>CallbackPreserver</ProviderName>
     <DefaultLocale>en-US</DefaultLocale>
-    <DisplayName DefaultValue="Version Buddy"/>
+    <DisplayName DefaultValue="Callback Preserver"/>
     <Description DefaultValue="User-friendly version control for Excel 365"/>
     <IconUrl DefaultValue="https://localhost:8443/images/versioning.gif"/>
     <HighResolutionIconUrl DefaultValue="https://localhost:8443/images/versioning.gif" />
@@ -82,7 +82,7 @@
             <!-- ShortStrings max characters==125. -->
             <bt:ShortStrings>
                 <bt:String id="CallbackPreserver.GetStarted.Title" DefaultValue="Get Started" />
-                <bt:String id="CallbackPreserver.Group.Label" DefaultValue="Version Buddy" />
+                <bt:String id="CallbackPreserver.Group.Label" DefaultValue="Callback Preserver" />
                 <bt:String id="CallbackPreserver.Button.Main.Label" DefaultValue="CallbackPreserver" />
             </bt:ShortStrings>
             <!-- LongStrings max characters==250. -->
